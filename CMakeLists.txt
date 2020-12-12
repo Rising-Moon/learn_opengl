@@ -19,7 +19,7 @@ endif ()
 include_directories(lib/glad-c/include)
 
 # config glm
-#include_directories(lib/glm)
+include_directories(lib/glm)
 
 set(SOURCE_FILES main.cpp ${GLAD_SRC})
 add_executable(learn_opengl ${SOURCE_FILES})
