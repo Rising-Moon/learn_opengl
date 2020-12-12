@@ -8,36 +8,36 @@
 		<Option virtualFolders="CMake Files\;CMake Files\lib\;CMake Files\lib\glfw\;CMake Files\lib\glfw\CMake\;CMake Files\lib\glfw\src\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/Users/mengyucheng/learn_opengl/cmake-build-debug/lib/glfw"/>
+				<Option working_dir="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/lib/glfw"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j16 -f &quot;/Users/mengyucheng/learn_opengl/cmake-build-debug/lib/glfw/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/make -j16 -f &quot;/Users/mengyucheng/learn_opengl/cmake-build-debug/lib/glfw/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j16 -f &quot;/Users/mengyucheng/learn_opengl/cmake-build-debug/lib/glfw/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j16 -f &quot;/Users/mengyucheng/learn_opengl/cmake-build-debug/lib/glfw/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j16 -f &quot;/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/lib/glfw/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/lib/glfw/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/lib/glfw/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/lib/glfw/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="uninstall">
-				<Option working_dir="/Users/mengyucheng/learn_opengl/cmake-build-debug/lib/glfw"/>
+				<Option working_dir="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/lib/glfw"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j16 -f &quot;/Users/mengyucheng/learn_opengl/cmake-build-debug/lib/glfw/Makefile&quot;  VERBOSE=1 uninstall"/>
-					<CompileFile command="/usr/bin/make -j16 -f &quot;/Users/mengyucheng/learn_opengl/cmake-build-debug/lib/glfw/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j16 -f &quot;/Users/mengyucheng/learn_opengl/cmake-build-debug/lib/glfw/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j16 -f &quot;/Users/mengyucheng/learn_opengl/cmake-build-debug/lib/glfw/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j16 -f &quot;/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/lib/glfw/Makefile&quot;  VERBOSE=1 uninstall"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/lib/glfw/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/lib/glfw/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/lib/glfw/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="glfw">
-				<Option output="/Users/mengyucheng/learn_opengl/cmake-build-debug/lib/glfw/src/libglfw3.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/Users/mengyucheng/learn_opengl/cmake-build-debug/lib/glfw/src"/>
+				<Option output="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/lib/glfw/src/libglfw3.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/lib/glfw/src"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
 				<Compiler>
 					<Add option="-D_GLFW_USE_CONFIG_H"/>
-					<Add directory="/Users/mengyucheng/learn_opengl/lib/glfw/include"/>
-					<Add directory="/Users/mengyucheng/learn_opengl/lib/glfw/src"/>
-					<Add directory="/Users/mengyucheng/learn_opengl/cmake-build-debug/lib/glfw/src"/>
+					<Add directory="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/include"/>
+					<Add directory="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/src"/>
+					<Add directory="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/lib/glfw/src"/>
 					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.1/include"/>
@@ -46,23 +46,23 @@
 					<Add directory="/Library/Frameworks"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j16 -f &quot;/Users/mengyucheng/learn_opengl/cmake-build-debug/lib/glfw/src/Makefile&quot;  VERBOSE=1 glfw"/>
-					<CompileFile command="/usr/bin/make -j16 -f &quot;/Users/mengyucheng/learn_opengl/cmake-build-debug/lib/glfw/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j16 -f &quot;/Users/mengyucheng/learn_opengl/cmake-build-debug/lib/glfw/src/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j16 -f &quot;/Users/mengyucheng/learn_opengl/cmake-build-debug/lib/glfw/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j16 -f &quot;/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/lib/glfw/src/Makefile&quot;  VERBOSE=1 glfw"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/lib/glfw/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/lib/glfw/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/lib/glfw/src/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="glfw/fast">
-				<Option output="/Users/mengyucheng/learn_opengl/cmake-build-debug/lib/glfw/src/libglfw3.a" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/Users/mengyucheng/learn_opengl/cmake-build-debug/lib/glfw/src"/>
+				<Option output="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/lib/glfw/src/libglfw3.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/lib/glfw/src"/>
 				<Option object_output="./"/>
 				<Option type="2"/>
 				<Option compiler="gcc"/>
 				<Compiler>
 					<Add option="-D_GLFW_USE_CONFIG_H"/>
-					<Add directory="/Users/mengyucheng/learn_opengl/lib/glfw/include"/>
-					<Add directory="/Users/mengyucheng/learn_opengl/lib/glfw/src"/>
-					<Add directory="/Users/mengyucheng/learn_opengl/cmake-build-debug/lib/glfw/src"/>
+					<Add directory="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/include"/>
+					<Add directory="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/src"/>
+					<Add directory="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/lib/glfw/src"/>
 					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/10.0.1/include"/>
@@ -71,110 +71,110 @@
 					<Add directory="/Library/Frameworks"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j16 -f &quot;/Users/mengyucheng/learn_opengl/cmake-build-debug/lib/glfw/src/Makefile&quot;  VERBOSE=1 glfw/fast"/>
-					<CompileFile command="/usr/bin/make -j16 -f &quot;/Users/mengyucheng/learn_opengl/cmake-build-debug/lib/glfw/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j16 -f &quot;/Users/mengyucheng/learn_opengl/cmake-build-debug/lib/glfw/src/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j16 -f &quot;/Users/mengyucheng/learn_opengl/cmake-build-debug/lib/glfw/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j16 -f &quot;/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/lib/glfw/src/Makefile&quot;  VERBOSE=1 glfw/fast"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/lib/glfw/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/lib/glfw/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/lib/glfw/src/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/Users/mengyucheng/learn_opengl/cmake-build-debug/lib/glfw/src/glfw_config.h">
+		<Unit filename="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/lib/glfw/src/glfw_config.h">
 			<Option target="glfw"/>
 		</Unit>
-		<Unit filename="/Users/mengyucheng/learn_opengl/lib/glfw/include/GLFW/glfw3.h">
+		<Unit filename="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/include/GLFW/glfw3.h">
 			<Option target="glfw"/>
 		</Unit>
-		<Unit filename="/Users/mengyucheng/learn_opengl/lib/glfw/include/GLFW/glfw3native.h">
+		<Unit filename="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/include/GLFW/glfw3native.h">
 			<Option target="glfw"/>
 		</Unit>
-		<Unit filename="/Users/mengyucheng/learn_opengl/lib/glfw/src/cocoa_init.m">
+		<Unit filename="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/src/cocoa_init.m">
 			<Option target="glfw"/>
 		</Unit>
-		<Unit filename="/Users/mengyucheng/learn_opengl/lib/glfw/src/cocoa_joystick.h">
+		<Unit filename="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/src/cocoa_joystick.h">
 			<Option target="glfw"/>
 		</Unit>
-		<Unit filename="/Users/mengyucheng/learn_opengl/lib/glfw/src/cocoa_joystick.m">
+		<Unit filename="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/src/cocoa_joystick.m">
 			<Option target="glfw"/>
 		</Unit>
-		<Unit filename="/Users/mengyucheng/learn_opengl/lib/glfw/src/cocoa_monitor.m">
+		<Unit filename="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/src/cocoa_monitor.m">
 			<Option target="glfw"/>
 		</Unit>
-		<Unit filename="/Users/mengyucheng/learn_opengl/lib/glfw/src/cocoa_platform.h">
+		<Unit filename="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/src/cocoa_platform.h">
 			<Option target="glfw"/>
 		</Unit>
-		<Unit filename="/Users/mengyucheng/learn_opengl/lib/glfw/src/cocoa_time.c">
+		<Unit filename="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/src/cocoa_time.c">
 			<Option target="glfw"/>
 		</Unit>
-		<Unit filename="/Users/mengyucheng/learn_opengl/lib/glfw/src/cocoa_window.m">
+		<Unit filename="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/src/cocoa_window.m">
 			<Option target="glfw"/>
 		</Unit>
-		<Unit filename="/Users/mengyucheng/learn_opengl/lib/glfw/src/context.c">
+		<Unit filename="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/src/context.c">
 			<Option target="glfw"/>
 		</Unit>
-		<Unit filename="/Users/mengyucheng/learn_opengl/lib/glfw/src/egl_context.c">
+		<Unit filename="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/src/egl_context.c">
 			<Option target="glfw"/>
 		</Unit>
-		<Unit filename="/Users/mengyucheng/learn_opengl/lib/glfw/src/egl_context.h">
+		<Unit filename="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/src/egl_context.h">
 			<Option target="glfw"/>
 		</Unit>
-		<Unit filename="/Users/mengyucheng/learn_opengl/lib/glfw/src/init.c">
+		<Unit filename="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/src/init.c">
 			<Option target="glfw"/>
 		</Unit>
-		<Unit filename="/Users/mengyucheng/learn_opengl/lib/glfw/src/input.c">
+		<Unit filename="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/src/input.c">
 			<Option target="glfw"/>
 		</Unit>
-		<Unit filename="/Users/mengyucheng/learn_opengl/lib/glfw/src/internal.h">
+		<Unit filename="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/src/internal.h">
 			<Option target="glfw"/>
 		</Unit>
-		<Unit filename="/Users/mengyucheng/learn_opengl/lib/glfw/src/mappings.h">
+		<Unit filename="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/src/mappings.h">
 			<Option target="glfw"/>
 		</Unit>
-		<Unit filename="/Users/mengyucheng/learn_opengl/lib/glfw/src/monitor.c">
+		<Unit filename="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/src/monitor.c">
 			<Option target="glfw"/>
 		</Unit>
-		<Unit filename="/Users/mengyucheng/learn_opengl/lib/glfw/src/nsgl_context.h">
+		<Unit filename="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/src/nsgl_context.h">
 			<Option target="glfw"/>
 		</Unit>
-		<Unit filename="/Users/mengyucheng/learn_opengl/lib/glfw/src/nsgl_context.m">
+		<Unit filename="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/src/nsgl_context.m">
 			<Option target="glfw"/>
 		</Unit>
-		<Unit filename="/Users/mengyucheng/learn_opengl/lib/glfw/src/osmesa_context.c">
+		<Unit filename="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/src/osmesa_context.c">
 			<Option target="glfw"/>
 		</Unit>
-		<Unit filename="/Users/mengyucheng/learn_opengl/lib/glfw/src/osmesa_context.h">
+		<Unit filename="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/src/osmesa_context.h">
 			<Option target="glfw"/>
 		</Unit>
-		<Unit filename="/Users/mengyucheng/learn_opengl/lib/glfw/src/posix_thread.c">
+		<Unit filename="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/src/posix_thread.c">
 			<Option target="glfw"/>
 		</Unit>
-		<Unit filename="/Users/mengyucheng/learn_opengl/lib/glfw/src/posix_thread.h">
+		<Unit filename="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/src/posix_thread.h">
 			<Option target="glfw"/>
 		</Unit>
-		<Unit filename="/Users/mengyucheng/learn_opengl/lib/glfw/src/vulkan.c">
+		<Unit filename="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/src/vulkan.c">
 			<Option target="glfw"/>
 		</Unit>
-		<Unit filename="/Users/mengyucheng/learn_opengl/lib/glfw/src/window.c">
+		<Unit filename="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/src/window.c">
 			<Option target="glfw"/>
 		</Unit>
-		<Unit filename="/Users/mengyucheng/learn_opengl/CMakeLists.txt">
+		<Unit filename="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
-		<Unit filename="/Users/mengyucheng/learn_opengl/lib/glfw/CMakeLists.txt">
+		<Unit filename="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\lib\glfw\"/>
 		</Unit>
-		<Unit filename="/Users/mengyucheng/learn_opengl/lib/glfw/CMake/cmake_uninstall.cmake.in">
+		<Unit filename="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/CMake/cmake_uninstall.cmake.in">
 			<Option virtualFolder="CMake Files\lib\glfw\CMake\"/>
 		</Unit>
-		<Unit filename="/Users/mengyucheng/learn_opengl/lib/glfw/CMake/glfw3.pc.in">
+		<Unit filename="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/CMake/glfw3.pc.in">
 			<Option virtualFolder="CMake Files\lib\glfw\CMake\"/>
 		</Unit>
-		<Unit filename="/Users/mengyucheng/learn_opengl/lib/glfw/CMake/glfw3Config.cmake.in">
+		<Unit filename="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/CMake/glfw3Config.cmake.in">
 			<Option virtualFolder="CMake Files\lib\glfw\CMake\"/>
 		</Unit>
-		<Unit filename="/Users/mengyucheng/learn_opengl/lib/glfw/src/CMakeLists.txt">
+		<Unit filename="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/src/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\lib\glfw\src\"/>
 		</Unit>
-		<Unit filename="/Users/mengyucheng/learn_opengl/lib/glfw/src/glfw_config.h.in">
+		<Unit filename="/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/src/glfw_config.h.in">
 			<Option virtualFolder="CMake Files\lib\glfw\src\"/>
 		</Unit>
 	</Project>

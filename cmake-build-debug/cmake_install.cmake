@@ -1,4 +1,4 @@
-# Install script for directory: /Users/mengyucheng/learn_opengl
+# Install script for directory: /Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,7 +34,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/Users/mengyucheng/learn_opengl/cmake-build-debug/lib/glfw/cmake_install.cmake")
+  include("/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/lib/glfw/cmake_install.cmake")
 
 endif()
 
@@ -46,5 +46,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/mengyucheng/learn_opengl/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

@@ -6,5 +6,5 @@ C_FLAGS = -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacO
 
 C_DEFINES = -D_GLFW_USE_CONFIG_H
 
-C_INCLUDES = -I/Users/mengyucheng/learn_opengl/lib/glfw/include -I/Users/mengyucheng/learn_opengl/lib/glfw/src -I/Users/mengyucheng/learn_opengl/cmake-build-debug/lib/glfw/src 
+C_INCLUDES = -I/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/include -I/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/lib/glfw/src -I/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/lib/glfw/src 
 
