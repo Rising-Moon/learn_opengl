@@ -12,17 +12,16 @@ find_package(OpenGL REQUIRED)
 add_subdirectory(lib/glfw)
 
 # config glad
-#set(GLAD_SRC lib/glad-c/src/glad.c)
-#if (NOT WIN32)
-#    LIST(APPEND LIBS dl)
-#endif ()
-#include_directories(lib/glad-c/include)
+set(GLAD_SRC lib/glad-c/src/glad.c)
+if (NOT WIN32)
+    LIST(APPEND LIBS dl)
+endif ()
+include_directories(lib/glad-c/include)
 
 # config glm
 #include_directories(lib/glm)
 
-#set(SOURCE_FILES main.cpp ${GLAD_SRC})
-set(SOURCE_FILES main.cpp)
+set(SOURCE_FILES main.cpp ${GLAD_SRC})
 add_executable(learn_opengl ${SOURCE_FILES})
 target_link_libraries(learn_opengl glfw)
 target_link_libraries(learn_opengl OpenGL::GL)
