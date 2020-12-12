@@ -1,13 +1,10 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/opengl.dir/lib/glad-c/src/glad.c.obj"
-  "CMakeFiles/opengl.dir/main.cpp.obj"
-  "opengl.exe"
-  "opengl.exe.manifest"
-  "opengl.lib"
+  "CMakeFiles/opengl.dir/main.cpp.o"
+  "opengl"
   "opengl.pdb"
 )
 
 # Per-language clean rules from dependency scanning.
-foreach(lang C CXX)
+foreach(lang CXX)
   include(CMakeFiles/opengl.dir/cmake_clean_${lang}.cmake OPTIONAL)
 endforeach()

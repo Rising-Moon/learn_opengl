@@ -1,26 +1,29 @@
 cmake_minimum_required(VERSION 3.8)
-project(opengl)
+project(learn_opengl)
 
 set(CMAKE_CXX_STANDARD 11)
 
 # config glfw
-option(GLFW_BUILD_DOCS OFF)
-option(GLFW_BUILD_EXAMPLES OFF)
-option(GLFW_BUILD_TESTS OFF)
+option(GL_SILENCE_DEPRECATION OFF)
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+find_package(OpenGL REQUIRED)
 add_subdirectory(lib/glfw)
-include_directories(lib/glfw/include)
-LIST(APPEND LIBS lib/glfw ${GLFW_LIBRARIES})
 
 # config glad
-set(GLAD_SRC lib/glad-c/src/glad.c)
-if (NOT WIN32)
-    LIST(APPEND LIBS dl)
-endif ()
-include_directories(lib/glad-c/include)
+#set(GLAD_SRC lib/glad-c/src/glad.c)
+#if (NOT WIN32)
+#    LIST(APPEND LIBS dl)
+#endif ()
+#include_directories(lib/glad-c/include)
 
 # config glm
-include_directories(lib/glm)
+#include_directories(lib/glm)
 
-set(SOURCE_FILES main.cpp ${GLAD_SRC})
-add_executable(opengl ${SOURCE_FILES})
-target_link_libraries(opengl ${LIBS})
+#set(SOURCE_FILES main.cpp ${GLAD_SRC})
+set(SOURCE_FILES main.cpp)
+add_executable(learn_opengl ${SOURCE_FILES})
+target_link_libraries(learn_opengl glfw)
+target_link_libraries(learn_opengl OpenGL::GL)
+target_link_libraries(learn_opengl ${LIBS})

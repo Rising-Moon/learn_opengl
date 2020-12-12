@@ -1,55 +1,37 @@
-// System Headers
-#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-// STL
-#include <iostream>
-#include <cstdlib>
+int main(void)
+{
+    GLFWwindow* window;
 
-int mWidth = 800;
-int mHeight = 600;
+    /* Initialize the library */
+    if (!glfwInit())
+        return -1;
 
-int main(int argc, char * argv[]) {
-
-    //
-    glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-
-    GLFWwindow* mWindow = glfwCreateWindow(mWidth, mHeight, "GL4Cookbook", nullptr, nullptr);
-
-    if (mWindow == nullptr) {
-        std::cout << "Failed to create GLFW window" << std::endl;
+    /* Create a windowed mode window and its OpenGL context */
+    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+    if (!window)
+    {
         glfwTerminate();
-        return EXIT_FAILURE;
+        return -1;
     }
 
-    glfwMakeContextCurrent(mWindow);
+    /* Make the window's context current */
+    glfwMakeContextCurrent(window);
 
-    // Load OpenGL Functions
-    gladLoadGL();
-    std::cout << "OpenGL " << glGetString(GL_VERSION) << std::endl;
-
-    // Viewport
-    int width, height;
-    glfwGetFramebufferSize(mWindow, &width, &height);
-    glViewport(0, 0, width, height);
-
-    // Rendering Loop
-    while (!glfwWindowShouldClose(mWindow)) {
-        if (glfwGetKey(mWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-            glfwSetWindowShouldClose(mWindow, true);
-
-        // Background Fill Color
-        glClearColor(0.25f, 0.25f, 0.25f, 1.0f);
+    /* Loop until the user closes the window */
+    while (!glfwWindowShouldClose(window))
+    {
+        /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
 
-        // Flip Buffers and Draw
-        glfwSwapBuffers(mWindow);
+        /* Swap front and back buffers */
+        glfwSwapBuffers(window);
+
+        /* Poll for and process events */
         glfwPollEvents();
-    }   glfwTerminate();
-    return EXIT_SUCCESS;
+    }
+
+    glfwTerminate();
+    return 0;
 }
