@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(learn_opengl)
+project(draw_triangle)
 
 set(CMAKE_CXX_STANDARD 11)
 
@@ -21,8 +21,8 @@ include_directories(lib/glad-c/include)
 # config glm
 include_directories(lib/glm)
 
-set(SOURCE_FILES main.cpp ${GLAD_SRC})
-add_executable(learn_opengl ${SOURCE_FILES})
-target_link_libraries(learn_opengl glfw)
-target_link_libraries(learn_opengl OpenGL::GL)
-target_link_libraries(learn_opengl ${LIBS})
+set(SOURCE_FILES DrawTriangle/main.cpp ${GLAD_SRC})
+add_executable(draw_triangle ${SOURCE_FILES})
+target_link_libraries(draw_triangle glfw)
+target_link_libraries(draw_triangle OpenGL::GL)
+target_link_libraries(draw_triangle ${LIBS})

@@ -4,7 +4,7 @@
 /Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/CMakeFiles/list_install_components.dir
 /Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/CMakeFiles/rebuild_cache.dir
 /Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/CMakeFiles/learn_opengl.dir
+/Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/CMakeFiles/draw_triangle.dir
 /Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/lib/glfw/CMakeFiles/install/local.dir
 /Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/lib/glfw/CMakeFiles/rebuild_cache.dir
 /Users/mengyucheng/Desktop/Projects/CLionProject/learn_opengl/cmake-build-debug/lib/glfw/CMakeFiles/edit_cache.dir
