@@ -9,25 +9,31 @@ void framebuffer_size_callback(GLFWwindow *, int, int);
 
 void processInput(GLFWwindow *);
 
-void draw();
+void draw(unsigned int);
 
 void readFile(const char *, char *);
 
+unsigned int createProgram(unsigned int, unsigned int);
+
+unsigned int initVertexShader();
+
+unsigned int initFragmentShader();
+
+//顶点着色器
+char VERTEX_SHADER[1024] = "";
+//片元着色器
+char FRAGMENT_SHADER[1024] = "";
 
 int main(void) {
-    char content[1024];
-    readFile("../DrawTriangle/vertex_shader.vert", content);
-    cout << content << endl;
+    readFile("../DrawTriangle/vertex_shader.vert", VERTEX_SHADER);
+    readFile("../DrawTriangle/fragment_shader.frag", FRAGMENT_SHADER);
 
-//    readFile("vertex_shader.vert", content);
-//    cout << content << endl;
-
-    /*glfwInit();
+    glfwInit();
     //配置glfw
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-#if not defined(__WIN32__)
+#ifdef __APPLE__
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
@@ -52,19 +58,27 @@ int main(void) {
 
     //注册窗口大小修改回调
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    //初始化顶点着色器
+    unsigned int vertexShader = initVertexShader();
+    //初始化片元着色器
+    unsigned int fragmentShader = initFragmentShader();
+    //创建着色器程序
+    unsigned int program = createProgram(vertexShader, fragmentShader);
 
     //渲染循环
     while (!glfwWindowShouldClose(window)) {
         processInput(window);
 
+
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+        draw(program);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
 
-    glfwTerminate();*/
+    glfwTerminate();
 
     return 0;
 }
@@ -72,7 +86,7 @@ int main(void) {
 //读取文件
 void readFile(const char *path, char *content) {
     ifstream infile;
-    int length = 0;
+    int length;
     infile.open(path, ios::in);
     infile.seekg(0, ios::end);
     length = infile.tellg();
@@ -93,8 +107,77 @@ void processInput(GLFWwindow *window) {
     }
 }
 
+//创建着色程序
+unsigned int createProgram(unsigned int vertex, unsigned int fragment) {
+    unsigned int shaderProgram;
+    shaderProgram = glCreateProgram();
+
+    glAttachShader(shaderProgram, vertex);
+    glAttachShader(shaderProgram, fragment);
+
+    //连接程序
+    glLinkProgram(shaderProgram);
+
+    int success;
+    char infoLog[512];
+    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+    if (!success) {
+        glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+        cout << "ERROR::PROGRAM::LINKER_FAILED\n" << infoLog << endl;
+        return 0;
+    }
+
+    glDeleteShader(vertex);
+    glDeleteShader(fragment);
+
+    return shaderProgram;
+}
+
+//初始化顶点着色器
+unsigned int initVertexShader() {
+    //顶点着色器
+    unsigned int vertexShader;
+    vertexShader = glCreateShader(GL_VERTEX_SHADER);
+    const char *context = VERTEX_SHADER;
+    glShaderSource(vertexShader, 1, &context, NULL);
+    glCompileShader(vertexShader);
+
+    //是否编译成功
+    int success;
+    char infoLog[512];
+    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+    if (!success) {
+        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+        cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << endl;
+        return 0;
+    }
+
+    return vertexShader;
+}
+
+//初始化片元着色器
+unsigned int initFragmentShader() {
+    unsigned int fragmentShader;
+    fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    const char *context = FRAGMENT_SHADER;
+    glShaderSource(fragmentShader, 1, &context, NULL);
+    glCompileShader(fragmentShader);
+
+    //是否编译成功
+    int success;
+    char infoLog[512];
+    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+    if (!success) {
+        glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+        cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << endl;
+        return 0;
+    }
+
+    return fragmentShader;
+}
+
 //绘制
-void draw() {
+void draw(unsigned int program) {
     //顶点数据
     float vertices[] = {
             -0.5f, -0.5f, 0.0f,
@@ -102,11 +185,23 @@ void draw() {
             0.0f, 0.5f, 0.0f
     };
     //生成VBO对象
-    unsigned int VBO;
+    unsigned int VAO, VBO;
+    glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
+    glBindVertexArray(VAO);
     //绑定对象到顶点缓冲
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    //设置顶点数据
+    //设置顶点数据到缓冲
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
+    //设置连接缓冲
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *) 0);
+    //开启缓冲区
+    glEnableVertexAttribArray(0);
+    //激活程序
+    glUseProgram(program);
+    //绘制
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+    //清空
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
 }
