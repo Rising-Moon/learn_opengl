@@ -41,7 +41,7 @@ int main(void) {
 #endif
 
     //创建窗口
-    GLFWwindow *window = glfwCreateWindow(800, 600, "LearnOpengl", NULL, NULL);
+    GLFWwindow *window = glfwCreateWindow(600, 600, "LearnOpengl", NULL, NULL);
     if (window == NULL) {
         cout << "Fail To Create GLFW Window" << endl;
         glfwTerminate();
@@ -58,7 +58,7 @@ int main(void) {
     }
 
     //设置窗口大小
-    glViewport(0, 0, 800, 600);
+    glViewport(0, 0, 600, 600);
     //注册窗口大小修改回调
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
@@ -187,11 +187,13 @@ void draw(unsigned int program) {
     float vertices[] = {
             -0.5f, -0.5f, 0.0f,
             0.5f, -0.5f, 0.0f,
-            0.0f, 0.5f, 0.0f,
-            1.0f, 1.0f, 0.0f
+            -0.5f, 0.5f, 0.0f,
+            0.5f, -0.5f, 0.0f,
+            -0.5f, 0.5f, 0.0f,
+            0.5f, 0.5f, 0.0f
     };
 
-    //生成VAO、VBO对象
+    //生成VAO、VBO、EBO对象
     unsigned int VAO[1], VBO[1];
     glGenVertexArrays(1, VAO);
     glGenBuffers(1, VBO);
@@ -204,7 +206,10 @@ void draw(unsigned int program) {
     //开启缓冲区
     glEnableVertexAttribArray(0);
     //设置连接缓冲
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (void *) 0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void *) 0);
+
+    //改为线框模式
+//    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     //绘制
     glDrawArrays(GL_TRIANGLES, 0, 6);

@@ -21,7 +21,7 @@ include_directories(lib/glad-c/include)
 # config glm
 include_directories(lib/glm)
 
-set(SOURCE_FILES DrawTriangle/main.cpp ${GLAD_SRC})
+set(SOURCE_FILES HomeWork/1_4/q2/main.cpp ${GLAD_SRC})
 add_executable(draw_triangle ${SOURCE_FILES})
 target_link_libraries(draw_triangle glfw)
 target_link_libraries(draw_triangle OpenGL::GL)

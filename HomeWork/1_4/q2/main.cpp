@@ -41,7 +41,7 @@ int main(void) {
 #endif
 
     //创建窗口
-    GLFWwindow *window = glfwCreateWindow(800, 600, "LearnOpengl", NULL, NULL);
+    GLFWwindow *window = glfwCreateWindow(600, 600, "LearnOpengl", NULL, NULL);
     if (window == NULL) {
         cout << "Fail To Create GLFW Window" << endl;
         glfwTerminate();
@@ -58,7 +58,7 @@ int main(void) {
     }
 
     //设置窗口大小
-    glViewport(0, 0, 800, 600);
+    glViewport(0, 0, 600, 600);
     //注册窗口大小修改回调
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
@@ -184,30 +184,53 @@ unsigned int initFragmentShader() {
 //绘制
 void draw(unsigned int program) {
     //顶点数据
-    float vertices[] = {
+    float vertices1[] = {
             -0.5f, -0.5f, 0.0f,
             0.5f, -0.5f, 0.0f,
-            0.0f, 0.5f, 0.0f,
-            1.0f, 1.0f, 0.0f
+            -0.5f, 0.5f, 0.0f
     };
 
-    //生成VAO、VBO对象
-    unsigned int VAO[1], VBO[1];
-    glGenVertexArrays(1, VAO);
-    glGenBuffers(1, VBO);
+    float vertices2[] = {
+            1.0f, -0.5f, 0.0f,
+            0.0f, 0.5f, 0.0f,
+            1.0f, 0.5f, 0.0f
+    };
+
+    //生成VAO、VBO、EBO对象
+    unsigned int VAO[2], VBO[2];
+    glGenVertexArrays(2, VAO);
+    glGenBuffers(2, VBO);
+
+    ////设置第一个三角形
     //绑定顶点数据
     glBindVertexArray(VAO[0]);
     //绑定对象到顶点缓冲
     glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
     //设置顶点数据到缓冲
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices1), vertices1, GL_STATIC_DRAW);
+    //设置连接缓冲
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void *) 0);
     //开启缓冲区
     glEnableVertexAttribArray(0);
-    //设置连接缓冲
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (void *) 0);
 
-    //绘制
-    glDrawArrays(GL_TRIANGLES, 0, 6);
+    ////设置第二个三角形
+    //绑定顶点数据
+    glBindVertexArray(VAO[1]);
+    //绑定对象到顶点缓冲
+    glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
+    //设置顶点数据到缓冲
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices2), vertices2, GL_STATIC_DRAW);
+    //设置连接缓冲
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void *) 0);
+    //开启缓冲区
+    glEnableVertexAttribArray(0);
+
+    ////绘制
+    glBindVertexArray(VAO[0]);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glBindVertexArray(VAO[1]);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+
     //清空
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
