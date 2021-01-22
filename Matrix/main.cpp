@@ -4,6 +4,9 @@
 #include <fstream>
 #include <math.h>
 #include <stb_image.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 using namespace std;
 
@@ -33,9 +36,9 @@ Image image;
 
 int main(void) {
     //读取顶点着色器代码
-    readFile("../Texture/vertex_shader.vert", VERTEX_SHADER);
+    readFile("../Matrix/vertex_shader.vert", VERTEX_SHADER);
     //读取片元着色器代码
-    readFile("../Texture/fragment_shader.frag", FRAGMENT_SHADER);
+    readFile("../Matrix/fragment_shader.frag", FRAGMENT_SHADER);
     //加载图片
     stbi_set_flip_vertically_on_load(true);
     image.data = stbi_load("../images/timg.jpeg", &image.width, &image.height, &image.nrChannels, 0);
@@ -181,60 +184,78 @@ unsigned int createShader(char *text, int type) {
 //绘制
 void draw(unsigned int program) {
     double time = glfwGetTime();
-    float greenValue = sin(time) / 2.0f + 0.5f;
     glUseProgram(program);
 
     //顶点数据
     float vertices[] = {
-            -0.5f, -0.5f, 0.0f,
-            0.5f, -0.5f, 0.0f,
-            -0.5f, 0.5f, 0.0f,
-            0.5f, 0.5f, 0.0f,
+//              4---5
+//             /|  /|
+//            0---1 |
+//            | 6-|-7
+//            |/  |/
+//            2---3
+            -0.5f, 0.5f, 0.5f, //0
+            0.5f, 0.5f, 0.5f, //1
+            -0.5f, -0.5f, 0.5f, //2
+            0.5f, -0.5f, 0.5f, //3
+            -0.5f, 0.5f, -0.5f, //4
+            0.5f, 0.5f, -0.5f, //5
+            -0.5f, -0.5f, -0.5f, //6
+            0.5f, -0.5f, -0.5f, //7
     };
 
-    //uv坐标
-    float texCoords[] = {
-            0.4f, 0.0f,
-            0.6f, 0.0f,
-            0.4f, 0.6f,
-            0.6f, 0.6f,
+    //索引
+    unsigned int indexes[] = {
+            0, 1, 2, 2, 1, 3,
+            1, 5, 3, 3, 5, 7,
+            5, 4, 7, 7, 4, 6,
+            4, 0, 6, 6, 9, 2,
+            4, 5, 0, 0, 5, 1,
+            6, 7, 2, 2, 7, 3
     };
 
     //生成VAO、VBO、EBO对象
-    unsigned int VAO[1], VBO[2];
+    unsigned int VAO[1], VBO[1], EBO[1];
     glGenVertexArrays(1, VAO);
     glGenBuffers(1, VBO);
+    glGenBuffers(1, EBO);
 
-    ////设置第一个三角形
     //绑定顶点数据
     glBindVertexArray(VAO[0]);
     //绑定对象到顶点缓冲
     glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
     //设置顶点数据到缓冲
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    //绑定索引数据到缓冲区
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO[0]);
+    //设置索引缓冲
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indexes), indexes, GL_STATIC_DRAW);
     //设置连接缓冲
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void *) 0);
     //开启缓冲区
     glEnableVertexAttribArray(0);
 
-    //设置uv坐标
-    glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
-    //设置uv坐标数据
-    glBufferData(GL_ARRAY_BUFFER, sizeof(texCoords), texCoords, GL_STATIC_DRAW);
-    //设置连接的缓冲
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void *) 0);
-    //开启缓冲区1
-    glEnableVertexAttribArray(1);
+    /**
+     * 变换
+     */
+    glm::mat4 model = glm::mat4(1.0f);
+    model = glm::rotate(model, glm::radians(60.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    unsigned int u_ModelMat = glGetUniformLocation(program, "u_ModelMat");
+    glUniformMatrix4fv(u_ModelMat, 1, GL_FALSE, glm::value_ptr(model));
 
-    //创建纹理缓冲
-    unsigned int texture[1];
-    glGenTextures(1, texture);
-    //绑定对象到2D纹理
-    glBindTexture(GL_TEXTURE_2D, texture[0]);
-    //设置纹理数据
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image.width, image.height, 0, GL_RGB, GL_UNSIGNED_BYTE, image.data);
-    //生成多级渐远纹理
-    glGenerateMipmap(GL_TEXTURE_2D);
+    glm::mat4 view = glm::mat4(1.0f);
+    glm::vec3 cameraPos = glm::vec3(glm::sin(time) * 4.0f, 1.0f, 2.0f);
+    glm::vec3 targetPos = glm::vec3(0.0f, 0.0f, 0.0f);
+    glm::vec3 front = glm::normalize(targetPos - cameraPos);
+    glm::vec3 left = glm::normalize(glm::cross(glm::vec3(0.0f, 1.0f, 0.0f), front));
+    glm::vec3 top = glm::normalize(glm::cross(front, left));
+    view = glm::lookAt(cameraPos, targetPos, top);
+    unsigned int u_ViewMat = glGetUniformLocation(program, "u_ViewMat");
+    glUniformMatrix4fv(u_ViewMat, 1, GL_FALSE, glm::value_ptr(view));
+
+    glm::mat4 proj = glm::perspective(glm::radians(90.0f), (float) 10.0f / (float) 10.0f, 0.1f, 100.0f);
+    unsigned int u_ProjectMat = glGetUniformLocation(program, "u_ProjectMat");
+    glUniformMatrix4fv(u_ProjectMat, 1, GL_FALSE, glm::value_ptr(proj));
 
 
     //背面剔除
@@ -243,20 +264,22 @@ void draw(unsigned int program) {
 //    glFrontFace(GL_CW);
 
     //设置WRAP方式
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     //设置WRAP颜色
-    float borderColor[] = {1.0f, 1.0f, 0.0f, 1.0f};
-    glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+//    float borderColor[] = {1.0f, 1.0f, 0.0f, 1.0f};
+//    glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
     //设置放大和缩小时的纹理过滤方式
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
+//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
     ////绘制
     glBindVertexArray(VAO[0]);
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+//    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (void *) 0);
 
     //清空
     glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 }

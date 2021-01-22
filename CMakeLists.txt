@@ -24,7 +24,7 @@ include_directories(lib/glm)
 # stb_image
 include_directories(lib)
 
-set(SOURCE_FILES Texture/main.cpp ${GLAD_SRC} Texture/image_util.cpp)
+set(SOURCE_FILES Matrix/main.cpp ${GLAD_SRC} Matrix/image_util.cpp)
 add_executable(draw_triangle ${SOURCE_FILES})
 target_link_libraries(draw_triangle glfw)
 target_link_libraries(draw_triangle OpenGL::GL)
