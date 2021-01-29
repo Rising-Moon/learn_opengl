@@ -283,6 +283,10 @@ void draw(Shader *shaders) {
 
     //设置光源位置
     glm::vec3 lightPos = glm::vec3(1.2f, 1.0f, 2.0f);
+    modelShader.setVector3("u_LightPos", glm::value_ptr(lightPos));
+
+    //设置摄像机位置
+    modelShader.setVector3("u_EyePos", glm::value_ptr(cameraPos));
 
     //设置光源颜色
     glm::vec3 lightColor = glm::vec3(1.0f, 1.0f, 1.0f);
@@ -291,6 +295,8 @@ void draw(Shader *shaders) {
     //设置模型颜色
     glm::vec3 toyColor = glm::vec3(1.0f, 0.5f, 0.31f);
     modelShader.setVector3("u_ToyColor", glm::value_ptr(toyColor));
+
+
 
     //背面剔除
     glEnable(GL_CULL_FACE);
