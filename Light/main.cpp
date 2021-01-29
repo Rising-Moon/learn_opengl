@@ -2,11 +2,9 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <fstream>
-#include <math.h>
+#include <cmath>
 #include <stb_image.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include <OurShader.h>
 
 using namespace std;
 
@@ -22,26 +20,26 @@ void framebuffer_size_callback(GLFWwindow *, int, int);
 
 void processInput(GLFWwindow *);
 
-void draw(unsigned int);
+void draw(Shader *);
 
 void readFile(const char *, char *);
-
-unsigned int createProgram(unsigned int, unsigned int);
-
-unsigned int createShader(char *, int);
 
 //顶点着色器
 char VERTEX_SHADER[1024] = "";
 //片元着色器
 char FRAGMENT_SHADER[1024] = "";
+//关照片元着色器
+char LIGHT_SHADER[1024] = "";
 //图片
 Image image;
 
 int main(void) {
     //读取顶点着色器代码
-    readFile("../Matrix/vertex_shader.vert", VERTEX_SHADER);
+//    readFile("../Light/vertex_shader.vert", VERTEX_SHADER);
     //读取片元着色器代码
-    readFile("../Matrix/fragment_shader.frag", FRAGMENT_SHADER);
+//    readFile("../Light/fragment_shader.frag", FRAGMENT_SHADER);
+    //读取光照着色器
+//    readFile("../Light/light_fshader.frag", LIGHT_SHADER);
     //加载图片
     stbi_set_flip_vertically_on_load(true);
     image.data = stbi_load("../images/timg.jpeg", &image.width, &image.height, &image.nrChannels, 0);
@@ -78,23 +76,24 @@ int main(void) {
     //注册窗口大小修改回调
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-    //初始化顶点着色器
-    unsigned int vertexShader = createShader(VERTEX_SHADER, GL_VERTEX_SHADER);
-    //初始化片元着色器
-    unsigned int fragmentShader = createShader(FRAGMENT_SHADER, GL_FRAGMENT_SHADER);
-    //创建着色器程序
-    unsigned int program = createProgram(vertexShader, fragmentShader);
-    //卸载着色器
-    glDeleteShader(fragmentShader);
-    glDeleteShader(vertexShader);
+    //着色器
+    Shader shader[] = {
+            Shader("../Light/vertex_shader.vert", "../Light/fragment_shader.frag"),
+            Shader("../Light/vertex_shader.vert", "../Light/light_fshader.frag")
+    };
 
     //渲染循环
     while (!glfwWindowShouldClose(window)) {
+        //限时最多执行5分钟避免卡顿
+        if (glfwGetTime() > 300) {
+            glfwSetWindowShouldClose(window, true);
+        }
+
         processInput(window);
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-        draw(program);
+        draw(shader);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -167,49 +166,23 @@ unsigned int createProgram(unsigned int vertex, unsigned int fragment) {
     return shaderProgram;
 }
 
-/**
- * 创建一个着色器
- * @param text 着色器文本
- * @param type 着色器类型 (GL_VERTEX_SHADER | GL_FRAGMENT_SHADER)
- * @return 创建的着色器
- */
-unsigned int createShader(char *text, int type) {
-    unsigned int shader;
-    shader = glCreateShader(type);
-    const char *context = text;
-    glShaderSource(shader, 1, &context, NULL);
-    glCompileShader(shader);
-
-    //是否编译成功
-    int success;
-    char infoLog[512];
-    glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-    if (!success) {
-        glGetShaderInfoLog(shader, 512, NULL, infoLog);
-        if (type == GL_VERTEX_SHADER) {
-            cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << endl;
-        } else if (type == GL_FRAGMENT_SHADER) {
-            cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << endl;
-        }
-        return 0;
-    }
-
-    return shader;
-}
-
 //绘制
-void draw(unsigned int program) {
+void draw(Shader *shaders) {
+    //运行时间
     double time = glfwGetTime();
-    glUseProgram(program);
+
+    Shader modelShader = shaders[0];
+    Shader lightShader = shaders[1];
+    modelShader.use();
 
     //顶点数据
+    //   4-----5
+    //  /|    /|
+    // 0-----1 |
+    // | 6---|-7
+    // |/    |/
+    // 2-----3
     float vertices[] = {
-//              4---5
-//             /|  /|
-//            0---1 |
-//            | 6-|-7
-//            |/  |/
-//            2---3
             -0.5f, 0.5f, 0.5f, //0
             0.5f, 0.5f, 0.5f, //1
             -0.5f, -0.5f, 0.5f, //2
@@ -230,7 +203,20 @@ void draw(unsigned int program) {
             2, 3, 6, 6, 3, 7
     };
 
-    //法线
+    //计算出完整顶点信息
+    float completeVertices[108];
+    int cvIndex = 0;
+    for (int i = 0; i < 36; ++i) {
+        int index = indexes[i];
+        completeVertices[cvIndex] = vertices[index * 3];
+        cvIndex++;
+        completeVertices[cvIndex] = vertices[index * 3 + 1];
+        cvIndex++;
+        completeVertices[cvIndex] = vertices[index * 3 + 2];
+        cvIndex++;
+    }
+
+    //计算出法线信息
     float normals[108];
     for (int i = 0; i < 12; ++i) {
         int index1 = indexes[i * 3];
@@ -239,16 +225,12 @@ void draw(unsigned int program) {
         glm::vec3 p1 = glm::vec3(vertices[index1 * 3], vertices[index1 * 3 + 1], vertices[index1 * 3 + 2]);
         glm::vec3 p2 = glm::vec3(vertices[index2 * 3], vertices[index2 * 3 + 1], vertices[index2 * 3 + 2]);
         glm::vec3 p3 = glm::vec3(vertices[index3 * 3], vertices[index3 * 3 + 1], vertices[index3 * 3 + 2]);
-//        cout << p1.x << " " << p1.y << " " << p1.z << endl;
-        glm::vec3 normal = glm::normalize(glm::cross(p2 - p1, p3 - p1));
+        glm::vec3 normal = glm::normalize(glm::cross(p3 - p1, p2 - p1));
         normals[i * 9] = normals[i * 9 + 3] = normals[i * 9 + 6] = normal.x;
         normals[i * 9 + 1] = normals[i * 9 + 4] = normals[i * 9 + 7] = normal.y;
         normals[i * 9 + 2] = normals[i * 9 + 5] = normals[i * 9 + 8] = normal.z;
     }
 
-    /*for (int i = 0; i < 36; ++i) {
-        cout << "x:" << normals[3 * i] << " y:" << normals[3 * i + 1] << " z:" << normals[3 * i + 2] << endl;
-    }*/
 
     //生成VAO、VBO、EBO对象
     unsigned int VAO[1], VBO[2], EBO[1];
@@ -258,16 +240,12 @@ void draw(unsigned int program) {
 
     //绑定顶点数据
     glBindVertexArray(VAO[0]);
-    //绑定对象到顶点缓冲
+    //绑定对象到顶点缓冲x
     glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
     //设置顶点数据到缓冲
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    //绑定索引数据到缓冲区
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO[0]);
-    //设置索引缓冲
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indexes), indexes, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(completeVertices), completeVertices, GL_STATIC_DRAW);
     //设置连接缓冲
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void *) 0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void *) 0);
     //开启缓冲区
     glEnableVertexAttribArray(0);
     //绑定缓冲区到
@@ -281,52 +259,80 @@ void draw(unsigned int program) {
 
     //模型矩阵
     glm::mat4 model = glm::mat4(1.0f);
-    model = glm::rotate(model, glm::radians(60.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-    unsigned int u_ModelMat = glGetUniformLocation(program, "u_ModelMat");
-    glUniformMatrix4fv(u_ModelMat, 1, GL_FALSE, glm::value_ptr(model));
+    model = glm::rotate(model, glm::radians(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    modelShader.setMatrix4fv("u_ModelMat", glm::value_ptr(model));
 
     //视图矩阵
     glm::mat4 view = glm::mat4(1.0f);
+    //计算相机位置
     float distance = g_CameraPos[0];
     float x = glm::sin(g_CameraPos[1]) * distance;
     float z = glm::cos(g_CameraPos[1]) * distance;
     glm::vec3 cameraPos = glm::vec3(x, g_CameraPos[2], z);
+    //计算相机上方向
     glm::vec3 targetPos = glm::vec3(0.0f, 0.0f, 0.0f);
     glm::vec3 front = glm::normalize(targetPos - cameraPos);
     glm::vec3 left = glm::normalize(glm::cross(glm::vec3(0.0f, 1.0f, 0.0f), front));
     glm::vec3 top = glm::normalize(glm::cross(front, left));
     view = glm::lookAt(cameraPos, targetPos, top);
-    unsigned int u_ViewMat = glGetUniformLocation(program, "u_ViewMat");
-    glUniformMatrix4fv(u_ViewMat, 1, GL_FALSE, glm::value_ptr(view));
+    modelShader.setMatrix4fv("u_ViewMat", glm::value_ptr(view));
 
     //投影矩阵
     glm::mat4 proj = glm::perspective(glm::radians(90.0f), 1.0f, 0.1f, 100.0f);
-    unsigned int u_ProjectMat = glGetUniformLocation(program, "u_ProjectMat");
-    glUniformMatrix4fv(u_ProjectMat, 1, GL_FALSE, glm::value_ptr(proj));
+    modelShader.setMatrix4fv("u_ProjectMat", glm::value_ptr(proj));
 
+    //设置光源位置
+    glm::vec3 lightPos = glm::vec3(1.2f, 1.0f, 2.0f);
+
+    //设置光源颜色
+    glm::vec3 lightColor = glm::vec3(1.0f, 1.0f, 1.0f);
+    modelShader.setVector3("u_LightColor", glm::value_ptr(lightColor));
+
+    //设置模型颜色
+    glm::vec3 toyColor = glm::vec3(1.0f, 0.5f, 0.31f);
+    modelShader.setVector3("u_ToyColor", glm::value_ptr(toyColor));
 
     //背面剔除
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     glFrontFace(GL_CW);
 
-    //设置WRAP方式
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    //设置WRAP颜色
-//    float borderColor[] = {1.0f, 1.0f, 0.0f, 1.0f};
-//    glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
-    //设置放大和缩小时的纹理过滤方式
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
-//    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    ////绘制
+    glBindVertexArray(VAO[0]);
+    glDrawArrays(GL_TRIANGLES, 0, sizeof(indexes) / sizeof(unsigned int));
+//    glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (void *) 0);
+
+
+    lightShader.use();
+    //生成VAO、VBO、EBO对象
+    glGenVertexArrays(1, VAO);
+    glGenBuffers(1, VBO);
+    glGenBuffers(1, EBO);
+
+    //绑定顶点数据
+    glBindVertexArray(VAO[0]);
+    //绑定对象到顶点缓冲x
+    glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
+    //设置顶点数据到缓冲
+    glBufferData(GL_ARRAY_BUFFER, sizeof(completeVertices), completeVertices, GL_STATIC_DRAW);
+    //设置连接缓冲
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, (void *) 0);
+    //开启缓冲区
+    glEnableVertexAttribArray(0);
+
+    //模型矩阵
+    glm::mat4 lightModel = glm::mat4(1.0f);
+    lightModel = glm::translate(lightModel, lightPos);
+    lightModel = glm::scale(lightModel, glm::vec3(0.2f, 0.2f, 0.2f));
+    modelShader.setMatrix4fv("u_ModelMat", glm::value_ptr(lightModel));
+    modelShader.setMatrix4fv("u_ViewMat", glm::value_ptr(view));
+    modelShader.setMatrix4fv("u_ProjectMat", glm::value_ptr(proj));
 
     ////绘制
     glBindVertexArray(VAO[0]);
-//    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-    glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, (void *) 0);
+    glDrawArrays(GL_TRIANGLES, 0, sizeof(indexes) / sizeof(unsigned int));
 
     //清空
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 }
