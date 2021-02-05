@@ -181,14 +181,14 @@ array, as it is an error to specify an extension more than once in the
 @section vulkan_present Querying for Vulkan presentation support
 
 Not every queue family of every Vulkan device can present images to surfaces.
-To check whether a specific queue family of a physical device supports image
+To check whether a specific queue family of a physical device supports ambient_texture
 presentation without first having to create a window and surface, call @ref
 glfwGetPhysicalDevicePresentationSupport.
 
 @code
 if (glfwGetPhysicalDevicePresentationSupport(instance, physical_device, queue_family_index))
 {
-    // Queue family supports image presentation
+    // Queue family supports ambient_texture presentation
 }
 @endcode
 

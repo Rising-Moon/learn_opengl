@@ -1833,7 +1833,7 @@ typedef struct GLFWgammaramp
 
 /*! @brief Image data.
  *
- *  This describes a single 2D image.  See the documentation for each related
+ *  This describes a single 2D ambient_texture.  See the documentation for each related
  *  function what the expected pixel format is.
  *
  *  @sa @ref cursor_custom
@@ -1846,13 +1846,13 @@ typedef struct GLFWgammaramp
  */
 typedef struct GLFWimage
 {
-    /*! The width, in pixels, of this image.
+    /*! The width, in pixels, of this ambient_texture.
      */
     int width;
-    /*! The height, in pixels, of this image.
+    /*! The height, in pixels, of this ambient_texture.
      */
     int height;
-    /*! The pixel data of this image, arranged left-to-right, top-to-bottom.
+    /*! The pixel data of this ambient_texture, arranged left-to-right, top-to-bottom.
      */
     unsigned char* pixels;
 } GLFWimage;
@@ -2923,7 +2923,7 @@ GLFWAPI void glfwSetWindowTitle(GLFWwindow* window, const char* title);
  *  bits per channel with the red channel first.  They are arranged canonically
  *  as packed sequential rows, starting from the top-left corner.
  *
- *  The desired image sizes varies depending on platform and system settings.
+ *  The desired ambient_texture sizes varies depending on platform and system settings.
  *  The selected images will be rescaled as needed.  Good sizes include 16x16,
  *  32x32 and 48x48.
  *
@@ -2936,7 +2936,7 @@ GLFWAPI void glfwSetWindowTitle(GLFWwindow* window, const char* title);
  *  @errors Possible errors include @ref GLFW_NOT_INITIALIZED, @ref
  *  GLFW_PLATFORM_ERROR and @ref GLFW_FEATURE_UNAVAILABLE (see remarks).
  *
- *  @pointer_lifetime The specified image data is copied before this function
+ *  @pointer_lifetime The specified ambient_texture data is copied before this function
  *  returns.
  *
  *  @remark @macos Regular windows do not have icons on macOS.  This function
@@ -4545,7 +4545,7 @@ GLFWAPI void glfwSetCursorPos(GLFWwindow* window, double xpos, double ypos);
 
 /*! @brief Creates a custom cursor.
  *
- *  Creates a new custom cursor image that can be set for a window with @ref
+ *  Creates a new custom cursor ambient_texture that can be set for a window with @ref
  *  glfwSetCursor.  The cursor can be destroyed with @ref glfwDestroyCursor.
  *  Any remaining cursors are destroyed by @ref glfwTerminate.
  *
@@ -4554,10 +4554,10 @@ GLFWAPI void glfwSetCursorPos(GLFWwindow* window, double xpos, double ypos);
  *  as packed sequential rows, starting from the top-left corner.
  *
  *  The cursor hotspot is specified in pixels, relative to the upper-left corner
- *  of the cursor image.  Like all other coordinate systems in GLFW, the X-axis
+ *  of the cursor ambient_texture.  Like all other coordinate systems in GLFW, the X-axis
  *  points to the right and the Y-axis points down.
  *
- *  @param[in] image The desired cursor image.
+ *  @param[in] image The desired cursor ambient_texture.
  *  @param[in] xhot The desired x-coordinate, in pixels, of the cursor hotspot.
  *  @param[in] yhot The desired y-coordinate, in pixels, of the cursor hotspot.
  *  @return The handle of the created cursor, or `NULL` if an
@@ -4566,7 +4566,7 @@ GLFWAPI void glfwSetCursorPos(GLFWwindow* window, double xpos, double ypos);
  *  @errors Possible errors include @ref GLFW_NOT_INITIALIZED and @ref
  *  GLFW_PLATFORM_ERROR.
  *
- *  @pointer_lifetime The specified image data is copied before this function
+ *  @pointer_lifetime The specified ambient_texture data is copied before this function
  *  returns.
  *
  *  @thread_safety This function must only be called from the main thread.
@@ -4658,7 +4658,7 @@ GLFWAPI void glfwDestroyCursor(GLFWcursor* cursor);
 
 /*! @brief Sets the cursor for the window.
  *
- *  This function sets the cursor image to be used when the cursor is over the
+ *  This function sets the cursor ambient_texture to be used when the cursor is over the
  *  content area of the specified window.  The set cursor will only be visible
  *  when the [cursor mode](@ref cursor_mode) of the window is
  *  `GLFW_CURSOR_NORMAL`.
@@ -5819,7 +5819,7 @@ GLFWAPI GLFWglproc glfwGetProcAddress(const char* procname);
  *  actual Vulkan support.  Call @ref glfwGetRequiredInstanceExtensions to check
  *  whether the extensions necessary for Vulkan surface creation are available
  *  and @ref glfwGetPhysicalDevicePresentationSupport to check whether a queue
- *  family of a physical device supports image presentation.
+ *  family of a physical device supports ambient_texture presentation.
  *
  *  @return `GLFW_TRUE` if Vulkan is minimally available, or `GLFW_FALSE`
  *  otherwise.

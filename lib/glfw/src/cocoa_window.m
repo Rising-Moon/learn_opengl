@@ -81,7 +81,7 @@ static void showCursor(_GLFWwindow* window)
     }
 }
 
-// Updates the cursor image according to its cursor mode
+// Updates the cursor ambient_texture according to its cursor mode
 //
 static void updateCursorImage(_GLFWwindow* window)
 {

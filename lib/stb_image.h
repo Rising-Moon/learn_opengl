@@ -1,4 +1,4 @@
-/* stb_image - v2.26 - public domain image loader - http://nothings.org/stb
+/* stb_image - v2.26 - public domain ambient_texture loader - http://nothings.org/stb
                                   no warranty implied; use at your own risk
 
    Do this:
@@ -140,25 +140,25 @@ RECENT REVISION HISTORY:
 //    stbi_image_free(data)
 //
 // Standard parameters:
-//    int *x                 -- outputs image width in pixels
-//    int *y                 -- outputs image height in pixels
-//    int *channels_in_file  -- outputs # of image components in image file
-//    int desired_channels   -- if non-zero, # of image components requested in result
+//    int *x                 -- outputs ambient_texture width in pixels
+//    int *y                 -- outputs ambient_texture height in pixels
+//    int *channels_in_file  -- outputs # of ambient_texture components in ambient_texture file
+//    int desired_channels   -- if non-zero, # of ambient_texture components requested in result
 //
-// The return value from an image loader is an 'unsigned char *' which points
-// to the pixel data, or NULL on an allocation failure or if the image is
+// The return value from an ambient_texture loader is an 'unsigned char *' which points
+// to the pixel data, or NULL on an allocation failure or if the ambient_texture is
 // corrupt or invalid. The pixel data consists of *y scanlines of *x pixels,
 // with each pixel consisting of N interleaved 8-bit components; the first
-// pixel pointed to is top-left-most in the image. There is no padding between
-// image scanlines or between pixels, regardless of format. The number of
+// pixel pointed to is top-left-most in the ambient_texture. There is no padding between
+// ambient_texture scanlines or between pixels, regardless of format. The number of
 // components N is 'desired_channels' if desired_channels is non-zero, or
 // *channels_in_file otherwise. If desired_channels is non-zero,
 // *channels_in_file has the number of components that _would_ have been
 // output otherwise. E.g. if you set desired_channels to 4, you will always
 // get RGBA output, but you can check *channels_in_file to see if it's trivially
-// opaque because e.g. there were only 3 channels in the source image.
+// opaque because e.g. there were only 3 channels in the source ambient_texture.
 //
-// An output image with N components has the following components interleaved
+// An output ambient_texture with N components has the following components interleaved
 // in this order in each pixel:
 //
 //     N=#comp     components
@@ -167,7 +167,7 @@ RECENT REVISION HISTORY:
 //       3           red, green, blue
 //       4           red, green, blue, alpha
 //
-// If image loading fails for any reason, the return value will be NULL,
+// If ambient_texture loading fails for any reason, the return value will be NULL,
 // and *x, *y, *channels_in_file will be unchanged. The function
 // stbi_failure_reason() can be queried for an extremely brief, end-user
 // unfriendly explanation of why the load failed. Define STBI_NO_FAILURE_STRINGS
@@ -244,7 +244,7 @@ RECENT REVISION HISTORY:
 //
 // ===========================================================================
 //
-// HDR image support   (disable by defining STBI_NO_HDR)
+// HDR ambient_texture support   (disable by defining STBI_NO_HDR)
 //
 // stb_image supports loading HDR images in general, and currently the Radiance
 // .HDR file format specifically. You can still load any file through the existing
@@ -271,8 +271,8 @@ RECENT REVISION HISTORY:
 //     stbi_ldr_to_hdr_gamma(2.2f);
 //
 // Finally, given a filename (or an open file or memory block--see header
-// file for details) containing image data, you can query for the "most
-// appropriate" interface to use (that is, whether the image is HDR or
+// file for details) containing ambient_texture data, you can query for the "most
+// appropriate" interface to use (that is, whether the ambient_texture is HDR or
 // not), using:
 //
 //     stbi_is_hdr(char *filename);
@@ -288,7 +288,7 @@ RECENT REVISION HISTORY:
 // is BGR stored in RGB).
 //
 // Call stbi_set_unpremultiply_on_load(1) as well to force a divide per
-// pixel to remove any premultiplied alpha *only* if the image file explicitly
+// pixel to remove any premultiplied alpha *only* if the ambient_texture file explicitly
 // says there's premultiplied data (currently only happens in iPhone images,
 // and only if iPhone convert-to-rgb processing is on).
 //
@@ -331,7 +331,7 @@ RECENT REVISION HISTORY:
 //    than that size (in either width or height) without further processing.
 //    This is to let programs in the wild set an upper bound to prevent
 //    denial-of-service attacks on untrusted data, as one could generate a
-//    valid image of gigantic dimensions and force stb_image to allocate a
+//    valid ambient_texture of gigantic dimensions and force stb_image to allocate a
 //    huge block of memory and spend disproportionate time decoding it. By
 //    default this is set to (1 << 24), which is 16777216, but that's still
 //    very big.
@@ -374,7 +374,7 @@ extern "C" {
 //
 
 //
-// load image by filename, open file, or memory buffer
+// load ambient_texture by filename, open file, or memory buffer
 //
 
 typedef struct
@@ -395,7 +395,7 @@ STBIDEF stbi_uc *stbi_load_from_callbacks(stbi_io_callbacks const *clbk  , void 
 #ifndef STBI_NO_STDIO
 STBIDEF stbi_uc *stbi_load            (char const *filename, int *x, int *y, int *channels_in_file, int desired_channels);
 STBIDEF stbi_uc *stbi_load_from_file  (FILE *f, int *x, int *y, int *channels_in_file, int desired_channels);
-// for stbi_load_from_file, file pointer is left pointing immediately after image
+// for stbi_load_from_file, file pointer is left pointing immediately after ambient_texture
 #endif
 
 #ifndef STBI_NO_GIF
@@ -456,10 +456,10 @@ STBIDEF int      stbi_is_hdr_from_file(FILE *f);
 // on most compilers (and ALL modern mainstream compilers) this is threadsafe
 STBIDEF const char *stbi_failure_reason  (void);
 
-// free the loaded image -- this is just free()
+// free the loaded ambient_texture -- this is just free()
 STBIDEF void     stbi_image_free      (void *retval_from_stbi_load);
 
-// get image dimensions & components without fully decoding
+// get ambient_texture dimensions & components without fully decoding
 STBIDEF int      stbi_info_from_memory(stbi_uc const *buffer, int len, int *x, int *y, int *comp);
 STBIDEF int      stbi_info_from_callbacks(stbi_io_callbacks const *clbk, void *user, int *x, int *y, int *comp);
 STBIDEF int      stbi_is_16_bit_from_memory(stbi_uc const *buffer, int len);
@@ -474,7 +474,7 @@ STBIDEF int      stbi_is_16_bit_from_file(FILE *f);
 
 
 
-// for image formats that explicitly notate that they have premultiplied alpha,
+// for ambient_texture formats that explicitly notate that they have premultiplied alpha,
 // we just return the colors as stored in the file. set this flag to force
 // unpremultiplication. results are undefined if the unpremultiply overflow.
 STBIDEF void stbi_set_unpremultiply_on_load(int flag_true_if_should_unpremultiply);
@@ -483,7 +483,7 @@ STBIDEF void stbi_set_unpremultiply_on_load(int flag_true_if_should_unpremultipl
 // or just pass them through "as-is"
 STBIDEF void stbi_convert_iphone_png_to_rgb(int flag_true_if_should_convert);
 
-// flip the image vertically, so the first pixel in the output array is the bottom left
+// flip the ambient_texture vertically, so the first pixel in the output array is the bottom left
 STBIDEF void stbi_set_flip_vertically_on_load(int flag_true_if_should_flip);
 
 // as above, but only applies to images loaded on the thread that calls the function
@@ -765,7 +765,7 @@ static int stbi__sse2_available(void)
 //  stbi__context struct and start_xxx functions
 
 // stbi__context structure is our basic context used by all images, so it
-// contains all the IO context, plus some basic image information
+// contains all the IO context, plus some basic ambient_texture information
 typedef struct
 {
     stbi__uint32 img_x, img_y;
@@ -951,7 +951,7 @@ static void *stbi__malloc(size_t size)
 }
 
 // stb_image uses ints pervasively, including for offset calculations.
-// therefore the largest decoded image size we can support with the
+// therefore the largest decoded ambient_texture size we can support with the
 // current code, even on 64-bit targets, is INT_MAX. this is not a
 // significant limitation for the intended use case.
 //
@@ -1124,7 +1124,7 @@ static void *stbi__load_main(stbi__context *s, int *x, int *y, int *comp, int re
         return stbi__tga_load(s,x,y,comp,req_comp, ri);
 #endif
 
-    return stbi__errpuc("unknown image type", "Image not of any known type, or corrupt");
+    return stbi__errpuc("unknown ambient_texture type", "Image not of any known type, or corrupt");
 }
 
 static stbi_uc *stbi__convert_16_to_8(stbi__uint16 *orig, int w, int h, int channels)
@@ -1412,7 +1412,7 @@ static float *stbi__loadf_main(stbi__context *s, int *x, int *y, int *comp, int 
     data = stbi__load_and_postprocess_8bit(s, x, y, comp, req_comp);
     if (data)
         return stbi__ldr_to_hdr(data, *x, *y, req_comp ? req_comp : *comp);
-    return stbi__errpf("unknown image type", "Image not of any known type, or corrupt");
+    return stbi__errpf("unknown ambient_texture type", "Image not of any known type, or corrupt");
 }
 
 STBIDEF float *stbi_loadf_from_memory(stbi_uc const *buffer, int len, int *x, int *y, int *comp, int req_comp)
@@ -1524,7 +1524,7 @@ STBIDEF void   stbi_hdr_to_ldr_scale(float scale) { stbi__h2l_scale_i = 1/scale;
 
 //////////////////////////////////////////////////////////////////////////////
 //
-// Common code used by all image loaders
+// Common code used by all ambient_texture loaders
 //
 
 enum
@@ -1711,7 +1711,7 @@ static unsigned char *stbi__convert_format(unsigned char *data, int img_n, int r
 
 #define STBI__COMBO(a,b)  ((a)*8+(b))
 #define STBI__CASE(a,b)   case STBI__COMBO(a,b): for(i=x-1; i >= 0; --i, src += a, dest += b)
-        // convert source image with img_n components to one with req_comp components;
+        // convert source ambient_texture with img_n components to one with req_comp components;
         // avoid switch per pixel, so use switch per scanline and massive macros
         switch (STBI__COMBO(img_n, req_comp)) {
             STBI__CASE(1,2) { dest[0]=src[0]; dest[1]=255;                                     } break;
@@ -1768,7 +1768,7 @@ static stbi__uint16 *stbi__convert_format16(stbi__uint16 *data, int img_n, int r
 
 #define STBI__COMBO(a,b)  ((a)*8+(b))
 #define STBI__CASE(a,b)   case STBI__COMBO(a,b): for(i=x-1; i >= 0; --i, src += a, dest += b)
-        // convert source image with img_n components to one with req_comp components;
+        // convert source ambient_texture with img_n components to one with req_comp components;
         // avoid switch per pixel, so use switch per scanline and massive macros
         switch (STBI__COMBO(img_n, req_comp)) {
             STBI__CASE(1,2) { dest[0]=src[0]; dest[1]=0xffff;                                     } break;
@@ -1898,7 +1898,7 @@ typedef struct
     int img_mcu_x, img_mcu_y;
     int img_mcu_w, img_mcu_h;
 
-// definition of jpeg image component
+// definition of jpeg ambient_texture component
     struct
     {
         int id;
@@ -3194,8 +3194,8 @@ static int stbi__process_frame_header(stbi__jpeg *z, int scan)
     p  = stbi__get8(s);            if (p != 8) return stbi__err("only 8-bit","JPEG format not supported: 8-bit only"); // JPEG baseline
     s->img_y = stbi__get16be(s);   if (s->img_y == 0) return stbi__err("no header height", "JPEG format not supported: delayed height"); // Legal, but we don't handle it--but neither does IJG
     s->img_x = stbi__get16be(s);   if (s->img_x == 0) return stbi__err("0 width","Corrupt JPEG"); // JPEG requires
-    if (s->img_y > STBI_MAX_DIMENSIONS) return stbi__err("too large","Very large image (corrupt?)");
-    if (s->img_x > STBI_MAX_DIMENSIONS) return stbi__err("too large","Very large image (corrupt?)");
+    if (s->img_y > STBI_MAX_DIMENSIONS) return stbi__err("too large","Very large ambient_texture (corrupt?)");
+    if (s->img_x > STBI_MAX_DIMENSIONS) return stbi__err("too large","Very large ambient_texture (corrupt?)");
     c = stbi__get8(s);
     if (c != 3 && c != 1 && c != 4) return stbi__err("bad component count","Corrupt JPEG");
     s->img_n = c;
@@ -3242,7 +3242,7 @@ static int stbi__process_frame_header(stbi__jpeg *z, int scan)
         z->img_comp[i].y = (s->img_y * z->img_comp[i].v + v_max-1) / v_max;
         // to simplify generation, we'll allocate enough memory to decode
         // the bogus oversized data from using interleaved MCUs and their
-        // big blocks (e.g. a 16x16 iMCU on an image of width 33); we won't
+        // big blocks (e.g. a 16x16 iMCU on an ambient_texture of width 33); we won't
         // discard the extra data until colorspace conversion
         //
         // img_mcu_x, img_mcu_y: <=17 bits; comp[i].h and .v are <=4 (checked earlier)
@@ -3304,7 +3304,7 @@ static int stbi__decode_jpeg_header(stbi__jpeg *z, int scan)
     return 1;
 }
 
-// decode image to YCbCr format
+// decode ambient_texture to YCbCr format
 static int stbi__decode_jpeg_image(stbi__jpeg *j)
 {
     int m;
@@ -3320,7 +3320,7 @@ static int stbi__decode_jpeg_image(stbi__jpeg *j)
             if (!stbi__process_scan_header(j)) return 0;
             if (!stbi__parse_entropy_coded_data(j)) return 0;
             if (j->marker == STBI__MARKER_none ) {
-                // handle 0s at the end of image data from IP Kamera 9060
+                // handle 0s at the end of ambient_texture data from IP Kamera 9060
                 while (!stbi__at_eof(j->s)) {
                     int x = stbi__get8(j->s);
                     if (x == 255) {
@@ -3769,7 +3769,7 @@ static stbi_uc *load_jpeg_image(stbi__jpeg *z, int *out_x, int *out_y, int *comp
     // validate req_comp
     if (req_comp < 0 || req_comp > 4) return stbi__errpuc("bad req_comp", "Internal error");
 
-    // load a jpeg image from whichever source, but leave in YCbCr format
+    // load a jpeg ambient_texture from whichever source, but leave in YCbCr format
     if (!stbi__decode_jpeg_image(z)) { stbi__cleanup_jpeg(z); return NULL; }
 
     // determine actual number of components to generate
@@ -4733,7 +4733,7 @@ static int stbi__create_png_image_raw(stbi__png *a, stbi_uc *raw, stbi__uint32 r
             }
         }
     } else if (depth == 16) {
-        // force the image data from big-endian to platform-native.
+        // force the ambient_texture data from big-endian to platform-native.
         // this is done in a separate pass due to the decoding relying
         // on the data being untouched, but could probably be done
         // per-line during decode if care is taken.
@@ -4968,8 +4968,8 @@ static int stbi__parse_png_file(stbi__png *z, int scan, int req_comp)
                 if (c.length != 13) return stbi__err("bad IHDR len","Corrupt PNG");
                 s->img_x = stbi__get32be(s);
                 s->img_y = stbi__get32be(s);
-                if (s->img_y > STBI_MAX_DIMENSIONS) return stbi__err("too large","Very large image (corrupt?)");
-                if (s->img_x > STBI_MAX_DIMENSIONS) return stbi__err("too large","Very large image (corrupt?)");
+                if (s->img_y > STBI_MAX_DIMENSIONS) return stbi__err("too large","Very large ambient_texture (corrupt?)");
+                if (s->img_x > STBI_MAX_DIMENSIONS) return stbi__err("too large","Very large ambient_texture (corrupt?)");
                 z->depth = stbi__get8(s);  if (z->depth != 1 && z->depth != 2 && z->depth != 4 && z->depth != 8 && z->depth != 16)  return stbi__err("1/2/4/8/16-bit only","PNG not supported: 1/2/4/8/16-bit only");
                 color = stbi__get8(s);  if (color > 6)         return stbi__err("bad ctype","Corrupt PNG");
                 if (color == 3 && z->depth == 16)                  return stbi__err("bad ctype","Corrupt PNG");
@@ -4977,7 +4977,7 @@ static int stbi__parse_png_file(stbi__png *z, int scan, int req_comp)
                 comp  = stbi__get8(s);  if (comp) return stbi__err("bad comp method","Corrupt PNG");
                 filter= stbi__get8(s);  if (filter) return stbi__err("bad filter method","Corrupt PNG");
                 interlace = stbi__get8(s); if (interlace>1) return stbi__err("bad interlace method","Corrupt PNG");
-                if (!s->img_x || !s->img_y) return stbi__err("0-pixel image","Corrupt PNG");
+                if (!s->img_x || !s->img_y) return stbi__err("0-pixel ambient_texture","Corrupt PNG");
                 if (!pal_img_n) {
                     s->img_n = (color & 2 ? 3 : 1) + (color & 4 ? 1 : 0);
                     if ((1 << 30) / s->img_x / s->img_n < s->img_y) return stbi__err("too large", "Image too large to decode");
@@ -5082,7 +5082,7 @@ static int stbi__parse_png_file(stbi__png *z, int scan, int req_comp)
                     if (!stbi__expand_png_palette(z, palette, pal_len, s->img_out_n))
                         return 0;
                 } else if (has_trans) {
-                    // non-paletted image with tRNS -> source image has (constant) alpha
+                    // non-paletted ambient_texture with tRNS -> source ambient_texture has (constant) alpha
                     ++s->img_n;
                 }
                 STBI_FREE(z->expanded); z->expanded = NULL;
@@ -5193,7 +5193,7 @@ static int stbi__png_is16(stbi__context *s)
 }
 #endif
 
-// Microsoft/Windows BMP image
+// Microsoft/Windows BMP ambient_texture
 
 #ifndef STBI_NO_BMP
 static int stbi__bmp_test_raw(stbi__context *s)
@@ -5377,8 +5377,8 @@ static void *stbi__bmp_load(stbi__context *s, int *x, int *y, int *comp, int req
     flip_vertically = ((int) s->img_y) > 0;
     s->img_y = abs((int) s->img_y);
 
-    if (s->img_y > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large","Very large image (corrupt?)");
-    if (s->img_x > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large","Very large image (corrupt?)");
+    if (s->img_y > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large","Very large ambient_texture (corrupt?)");
+    if (s->img_x > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large","Very large ambient_texture (corrupt?)");
 
     mr = info.mr;
     mg = info.mg;
@@ -5581,8 +5581,8 @@ static int stbi__tga_info(stbi__context *s, int *x, int *y, int *comp)
         stbi__rewind(s);
         return 0;      // only RGB or indexed allowed
     }
-    tga_image_type = stbi__get8(s); // image type
-    if ( tga_colormap_type == 1 ) { // colormapped (paletted) image
+    tga_image_type = stbi__get8(s); // ambient_texture type
+    if ( tga_colormap_type == 1 ) { // colormapped (paletted) ambient_texture
         if (tga_image_type != 1 && tga_image_type != 9) {
             stbi__rewind(s);
             return 0;
@@ -5593,14 +5593,14 @@ static int stbi__tga_info(stbi__context *s, int *x, int *y, int *comp)
             stbi__rewind(s);
             return 0;
         }
-        stbi__skip(s,4);       // skip image x and y origin
+        stbi__skip(s,4);       // skip ambient_texture x and y origin
         tga_colormap_bpp = sz;
-    } else { // "normal" image w/o colormap - only RGB or grey allowed, +/- RLE
+    } else { // "normal" ambient_texture w/o colormap - only RGB or grey allowed, +/- RLE
         if ( (tga_image_type != 2) && (tga_image_type != 3) && (tga_image_type != 10) && (tga_image_type != 11) ) {
             stbi__rewind(s);
             return 0; // only RGB or grey allowed, +/- RLE
         }
-        stbi__skip(s,9); // skip colormap specification and image x/y origin
+        stbi__skip(s,9); // skip colormap specification and ambient_texture x/y origin
         tga_colormap_bpp = 0;
     }
     tga_w = stbi__get16le(s);
@@ -5643,16 +5643,16 @@ static int stbi__tga_test(stbi__context *s)
     stbi__get8(s);      //   discard Offset
     tga_color_type = stbi__get8(s);   //   color type
     if ( tga_color_type > 1 ) goto errorEnd;   //   only RGB or indexed allowed
-    sz = stbi__get8(s);   //   image type
-    if ( tga_color_type == 1 ) { // colormapped (paletted) image
-        if (sz != 1 && sz != 9) goto errorEnd; // colortype 1 demands image type 1 or 9
+    sz = stbi__get8(s);   //   ambient_texture type
+    if ( tga_color_type == 1 ) { // colormapped (paletted) ambient_texture
+        if (sz != 1 && sz != 9) goto errorEnd; // colortype 1 demands ambient_texture type 1 or 9
         stbi__skip(s,4);       // skip index of first colormap entry and number of entries
         sz = stbi__get8(s);    //   check bits per palette color entry
         if ( (sz != 8) && (sz != 15) && (sz != 16) && (sz != 24) && (sz != 32) ) goto errorEnd;
-        stbi__skip(s,4);       // skip image x and y origin
-    } else { // "normal" image w/o colormap
+        stbi__skip(s,4);       // skip ambient_texture x and y origin
+    } else { // "normal" ambient_texture w/o colormap
         if ( (sz != 2) && (sz != 3) && (sz != 10) && (sz != 11) ) goto errorEnd; // only RGB or grey allowed, +/- RLE
-        stbi__skip(s,9); // skip colormap specification and image x/y origin
+        stbi__skip(s,9); // skip colormap specification and ambient_texture x/y origin
     }
     if ( stbi__get16le(s) < 1 ) goto errorEnd;      //   test width
     if ( stbi__get16le(s) < 1 ) goto errorEnd;      //   test height
@@ -5682,7 +5682,7 @@ static void stbi__tga_read_rgb16(stbi__context *s, stbi_uc* out)
     out[2] = (stbi_uc)((b * 255)/31);
 
     // some people claim that the most significant bit might be used for alpha
-    // (possibly if an alpha-bit is set in the "image descriptor byte")
+    // (possibly if an alpha-bit is set in the "ambient_texture descriptor byte")
     // but that only made 16bit test images completely translucent..
     // so let's treat all 15 and 16bit TGAs as RGB with no alpha.
 }
@@ -5705,7 +5705,7 @@ static void *stbi__tga_load(stbi__context *s, int *x, int *y, int *comp, int req
     int tga_comp, tga_rgb16=0;
     int tga_inverted = stbi__get8(s);
     // int tga_alpha_bits = tga_inverted & 15; // the 4 lowest bits - unused (useless?)
-    //   image data
+    //   ambient_texture data
     unsigned char *tga_data;
     unsigned char *tga_palette = NULL;
     int i, j;
@@ -5717,8 +5717,8 @@ static void *stbi__tga_load(stbi__context *s, int *x, int *y, int *comp, int req
     STBI_NOTUSED(tga_x_origin); // @TODO
     STBI_NOTUSED(tga_y_origin); // @TODO
 
-    if (tga_height > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large","Very large image (corrupt?)");
-    if (tga_width > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large","Very large image (corrupt?)");
+    if (tga_height > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large","Very large ambient_texture (corrupt?)");
+    if (tga_width > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large","Very large ambient_texture (corrupt?)");
 
     //   do a tiny bit of precessing
     if ( tga_image_type >= 8 )
@@ -5842,7 +5842,7 @@ static void *stbi__tga_load(stbi__context *s, int *x, int *y, int *comp, int req
             //   in case we're in RLE mode, keep counting down
             --RLE_count;
         }
-        //   do I need to invert the image?
+        //   do I need to invert the ambient_texture?
         if ( tga_inverted )
         {
             for (j = 0; j*2 < tga_height; ++j)
@@ -5954,11 +5954,11 @@ static void *stbi__psd_load(stbi__context *s, int *x, int *y, int *comp, int req
 
     // Check identifier
     if (stbi__get32be(s) != 0x38425053)   // "8BPS"
-        return stbi__errpuc("not PSD", "Corrupt PSD image");
+        return stbi__errpuc("not PSD", "Corrupt PSD ambient_texture");
 
     // Check file type version.
     if (stbi__get16be(s) != 1)
-        return stbi__errpuc("wrong version", "Unsupported version of PSD image");
+        return stbi__errpuc("wrong version", "Unsupported version of PSD ambient_texture");
 
     // Skip 6 reserved bytes.
     stbi__skip(s, 6 );
@@ -5966,14 +5966,14 @@ static void *stbi__psd_load(stbi__context *s, int *x, int *y, int *comp, int req
     // Read the number of channels (R, G, B, A, etc).
     channelCount = stbi__get16be(s);
     if (channelCount < 0 || channelCount > 16)
-        return stbi__errpuc("wrong channel count", "Unsupported number of channels in PSD image");
+        return stbi__errpuc("wrong channel count", "Unsupported number of channels in PSD ambient_texture");
 
-    // Read the rows and columns of the image.
+    // Read the rows and columns of the ambient_texture.
     h = stbi__get32be(s);
     w = stbi__get32be(s);
 
-    if (h > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large","Very large image (corrupt?)");
-    if (w > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large","Very large image (corrupt?)");
+    if (h > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large","Very large ambient_texture (corrupt?)");
+    if (w > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large","Very large ambient_texture (corrupt?)");
 
     // Make sure the depth is 8 bits.
     bitdepth = stbi__get16be(s);
@@ -5996,7 +5996,7 @@ static void *stbi__psd_load(stbi__context *s, int *x, int *y, int *comp, int req
     // Skip the Mode Data.  (It's the palette for indexed color; other info for other modes.)
     stbi__skip(s,stbi__get32be(s) );
 
-    // Skip the image resources.  (resolution, pen tool paths, etc)
+    // Skip the ambient_texture resources.  (resolution, pen tool paths, etc)
     stbi__skip(s, stbi__get32be(s) );
 
     // Skip the reserved data.
@@ -6014,7 +6014,7 @@ static void *stbi__psd_load(stbi__context *s, int *x, int *y, int *comp, int req
     if (!stbi__mad3sizes_valid(4, w, h, 0))
         return stbi__errpuc("too large", "Corrupt PSD");
 
-    // Create the destination image.
+    // Create the destination ambient_texture.
 
     if (!compression && bitdepth == 16 && bpc == 16) {
         out = (stbi_uc *) stbi__malloc_mad3(8, w, h, 0);
@@ -6028,7 +6028,7 @@ static void *stbi__psd_load(stbi__context *s, int *x, int *y, int *comp, int req
     // Initialize the data to zero.
     //memset( out, 0, pixelCount * 4 );
 
-    // Finally, the image data.
+    // Finally, the ambient_texture data.
     if (compression) {
         // RLE as used by .PSD and .TIFF
         // Loop until you get the number of unpacked bytes you are expecting:
@@ -6061,8 +6061,8 @@ static void *stbi__psd_load(stbi__context *s, int *x, int *y, int *comp, int req
         }
 
     } else {
-        // We're at the raw image data.  It's each channel in order (Red, Green, Blue, Alpha, ...)
-        // where each channel consists of an 8-bit (or 16-bit) value for each pixel in the image.
+        // We're at the raw ambient_texture data.  It's each channel in order (Red, Green, Blue, Alpha, ...)
+        // where each channel consists of an 8-bit (or 16-bit) value for each pixel in the ambient_texture.
 
         // Read the data by channel.
         for (channel = 0; channel < 4; channel++) {
@@ -6330,11 +6330,11 @@ static void *stbi__pic_load(stbi__context *s,int *px,int *py,int *comp,int req_c
     x = stbi__get16be(s);
     y = stbi__get16be(s);
 
-    if (y > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large","Very large image (corrupt?)");
-    if (x > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large","Very large image (corrupt?)");
+    if (y > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large","Very large ambient_texture (corrupt?)");
+    if (x > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large","Very large ambient_texture (corrupt?)");
 
     if (stbi__at_eof(s))  return stbi__errpuc("bad file","file too short (pic header)");
-    if (!stbi__mad3sizes_valid(x, y, 4, 0)) return stbi__errpuc("too large", "PIC image too large to decode");
+    if (!stbi__mad3sizes_valid(x, y, 4, 0)) return stbi__errpuc("too large", "PIC ambient_texture too large to decode");
 
     stbi__get32be(s); //skip `ratio'
     stbi__get16be(s); //skip `fields'
@@ -6441,8 +6441,8 @@ static int stbi__gif_header(stbi__context *s, stbi__gif *g, int *comp, int is_in
     g->ratio = stbi__get8(s);
     g->transparent = -1;
 
-    if (g->w > STBI_MAX_DIMENSIONS) return stbi__err("too large","Very large image (corrupt?)");
-    if (g->h > STBI_MAX_DIMENSIONS) return stbi__err("too large","Very large image (corrupt?)");
+    if (g->w > STBI_MAX_DIMENSIONS) return stbi__err("too large","Very large ambient_texture (corrupt?)");
+    if (g->h > STBI_MAX_DIMENSIONS) return stbi__err("too large","Very large ambient_texture (corrupt?)");
 
     if (comp != 0) *comp = 4;  // can't actually tell whether it's 3 or 4 until we parse the comments
 
@@ -6474,7 +6474,7 @@ static void stbi__out_gif_code(stbi__gif *g, stbi__uint16 code)
     int idx;
 
     // recurse to decode the prefixes, since the linked-list is backwards,
-    // and working backwards through an interleaved image would be nasty
+    // and working backwards through an interleaved ambient_texture would be nasty
     if (g->codes[code].prefix >= 0)
         stbi__out_gif_code(g, g->codes[code].prefix);
 
@@ -6591,7 +6591,7 @@ static stbi_uc *stbi__process_gif_raster(stbi__context *s, stbi__gif *g)
 }
 
 // this function is designed to support animated gifs, although stb_image doesn't support it
-// two back is the image from two frames ago, used for a very specific disposal format
+// two back is the ambient_texture from two frames ago, used for a very specific disposal format
 static stbi_uc *stbi__gif_load_next(stbi__context *s, stbi__gif *g, int *comp, int req_comp, stbi_uc *two_back)
 {
     int dispose;
@@ -6605,7 +6605,7 @@ static stbi_uc *stbi__gif_load_next(stbi__context *s, stbi__gif *g, int *comp, i
     if (g->out == 0) {
         if (!stbi__gif_header(s, g, comp,0)) return 0; // stbi__g_failure_reason set by stbi__gif_header
         if (!stbi__mad3sizes_valid(4, g->w, g->h, 0))
-            return stbi__errpuc("too large", "GIF image is too large");
+            return stbi__errpuc("too large", "GIF ambient_texture is too large");
         pcount = g->w * g->h;
         g->out = (stbi_uc *) stbi__malloc(4 * pcount);
         g->background = (stbi_uc *) stbi__malloc(4 * pcount);
@@ -6613,7 +6613,7 @@ static stbi_uc *stbi__gif_load_next(stbi__context *s, stbi__gif *g, int *comp, i
         if (!g->out || !g->background || !g->history)
             return stbi__errpuc("outofmem", "Out of memory");
 
-        // image is treated as "transparent" at the start - ie, nothing overwrites the current background;
+        // ambient_texture is treated as "transparent" at the start - ie, nothing overwrites the current background;
         // background colour is only used for pixels that are not rendered first frame, after that "background"
         // color refers to the color that was there the previous frame.
         memset(g->out, 0x00, 4 * pcount);
@@ -6626,7 +6626,7 @@ static stbi_uc *stbi__gif_load_next(stbi__context *s, stbi__gif *g, int *comp, i
         pcount = g->w * g->h;
 
         if ((dispose == 3) && (two_back == 0)) {
-            dispose = 2; // if I don't have an image to revert back to, default to the old background
+            dispose = 2; // if I don't have an ambient_texture to revert back to, default to the old background
         }
 
         if (dispose == 3) { // use previous graphic
@@ -6680,7 +6680,7 @@ static stbi_uc *stbi__gif_load_next(stbi__context *s, stbi__gif *g, int *comp, i
                 g->cur_y   = g->start_y;
 
                 // if the width of the specified rectangle is 0, that means
-                // we may not see *any* pixels or the image is malformed;
+                // we may not see *any* pixels or the ambient_texture is malformed;
                 // to make sure this is caught, move the current y down to
                 // max_y (which is what out_gif_code checks).
                 if (w == 0)
@@ -6862,7 +6862,7 @@ static void *stbi__gif_load(stbi__context *s, int *x, int *y, int *comp, int req
         if (req_comp && req_comp != 4)
             u = stbi__convert_format(u, 4, req_comp, g.w, g.h);
     } else if (g.out) {
-        // if there was an error and we allocated an image buffer, free it!
+        // if there was an error and we allocated an ambient_texture buffer, free it!
         STBI_FREE(g.out);
     }
 
@@ -6971,7 +6971,7 @@ static float *stbi__hdr_load(stbi__context *s, int *x, int *y, int *comp, int re
     // Check identifier
     headerToken = stbi__hdr_gettoken(s,buffer);
     if (strcmp(headerToken, "#?RADIANCE") != 0 && strcmp(headerToken, "#?RGBE") != 0)
-        return stbi__errpf("not HDR", "Corrupt HDR image");
+        return stbi__errpf("not HDR", "Corrupt HDR ambient_texture");
 
     // Parse header
     for(;;) {
@@ -6993,8 +6993,8 @@ static float *stbi__hdr_load(stbi__context *s, int *x, int *y, int *comp, int re
     token += 3;
     width = (int) strtol(token, NULL, 10);
 
-    if (height > STBI_MAX_DIMENSIONS) return stbi__errpf("too large","Very large image (corrupt?)");
-    if (width > STBI_MAX_DIMENSIONS) return stbi__errpf("too large","Very large image (corrupt?)");
+    if (height > STBI_MAX_DIMENSIONS) return stbi__errpf("too large","Very large ambient_texture (corrupt?)");
+    if (width > STBI_MAX_DIMENSIONS) return stbi__errpf("too large","Very large ambient_texture (corrupt?)");
 
     *x = width;
     *y = height;
@@ -7003,15 +7003,15 @@ static float *stbi__hdr_load(stbi__context *s, int *x, int *y, int *comp, int re
     if (req_comp == 0) req_comp = 3;
 
     if (!stbi__mad4sizes_valid(width, height, req_comp, sizeof(float), 0))
-        return stbi__errpf("too large", "HDR image is too large");
+        return stbi__errpf("too large", "HDR ambient_texture is too large");
 
     // Read data
     hdr_data = (float *) stbi__malloc_mad4(width, height, req_comp, sizeof(float), 0);
     if (!hdr_data)
         return stbi__errpf("outofmem", "Out of memory");
 
-    // Load image data
-    // image data is stored as some number of sca
+    // Load ambient_texture data
+    // ambient_texture data is stored as some number of sca
     if ( width < 8 || width >= 32768) {
         // Read flat data
         for (j=0; j < height; ++j) {
@@ -7285,7 +7285,7 @@ static int stbi__pic_info(stbi__context *s, int *x, int *y, int *comp)
 //
 // Known limitations:
 //    Does not support comments in the header section
-//    Does not support ASCII image data (formats P2 and P3)
+//    Does not support ASCII ambient_texture data (formats P2 and P3)
 //    Does not support 16-bit-per-channel
 
 #ifndef STBI_NO_PNM
@@ -7310,8 +7310,8 @@ static void *stbi__pnm_load(stbi__context *s, int *x, int *y, int *comp, int req
     if (!stbi__pnm_info(s, (int *)&s->img_x, (int *)&s->img_y, (int *)&s->img_n))
         return 0;
 
-    if (s->img_y > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large","Very large image (corrupt?)");
-    if (s->img_x > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large","Very large image (corrupt?)");
+    if (s->img_y > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large","Very large ambient_texture (corrupt?)");
+    if (s->img_x > STBI_MAX_DIMENSIONS) return stbi__errpuc("too large","Very large ambient_texture (corrupt?)");
 
     *x = s->img_x;
     *y = s->img_y;
@@ -7400,7 +7400,7 @@ static int      stbi__pnm_info(stbi__context *s, int *x, int *y, int *comp)
     maxv = stbi__pnm_getinteger(s, &c);  // read max value
 
     if (maxv > 255)
-        return stbi__err("max value > 255", "PPM image not 8-bit");
+        return stbi__err("max value > 255", "PPM ambient_texture not 8-bit");
     else
         return 1;
 }
@@ -7445,7 +7445,7 @@ static int stbi__info_main(stbi__context *s, int *x, int *y, int *comp)
     if (stbi__tga_info(s, x, y, comp))
         return 1;
 #endif
-    return stbi__err("unknown image type", "Image not of any known type, or corrupt");
+    return stbi__err("unknown ambient_texture type", "Image not of any known type, or corrupt");
 }
 
 static int stbi__is_16_main(stbi__context *s)
@@ -7661,7 +7661,7 @@ STBIDEF int stbi_is_16_bit_from_callbacks(stbi_io_callbacks const *c, void *user
               attempt to fix trans_data warning (Won Chun)
       1.23    fixed bug in iPhone support
       1.22  (2010-07-10)
-              removed image *writing* support
+              removed ambient_texture *writing* support
               stbi_info support from Jetro Lauha
               GIF support from Jean-Marc Lienher
               iPhone PNG-extensions from James Brown

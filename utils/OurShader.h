@@ -15,6 +15,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include "../head/my_structs.h"
 
 class Shader {
 public:
@@ -38,6 +39,7 @@ public:
 
     void setVector4(const std::string &name, float *value) const;
 
+    unsigned int setImage(Image image, GLenum textIndex);
 };
 
 Shader::Shader(const GLchar *vertexPath, const GLchar *fragmentPath) {
@@ -124,24 +126,33 @@ void Shader::use() {
 }
 
 void Shader::setInt(const std::string &name, int value) const {
-    glUniform1i(glGetUniformLocation(ID, name.c_str()), (int) value);
+    glProgramUniform1i(ID, glGetUniformLocation(ID, name.c_str()), (int) value);
 }
 
 void Shader::setFloat(const std::string &name, float value) const {
-    glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
+    glProgramUniform1f(ID, glGetUniformLocation(ID, name.c_str()), value);
 }
 
 void Shader::setMatrix4fv(const std::string &name, float *value) const {
-    glad_glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, value);
+    glProgramUniformMatrix4fv(ID, glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, value);
 }
 
 void Shader::setVector3(const std::string &name, float *value) const {
-    glad_glUniform3fv(glGetUniformLocation(ID, name.c_str()), 1, value);
+    glProgramUniform3fv(ID, glGetUniformLocation(ID, name.c_str()), 1, value);
 }
 
 void Shader::setVector4(const std::string &name, float *value) const {
-    glad_glUniform4fv(glGetUniformLocation(ID, name.c_str()), 1, value);
+    glProgramUniform4fv(ID, glGetUniformLocation(ID, name.c_str()), 1, value);
+}
 
+unsigned int Shader::setImage(Image image, GLenum textIndex) {
+    unsigned int texture;
+    glGenTextures(1, &texture);
+    glActiveTexture(textIndex);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.width, image.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image.data);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    return texture;
 }
 
 #endif //SHADER_H

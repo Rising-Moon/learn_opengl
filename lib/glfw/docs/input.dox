@@ -235,7 +235,7 @@ arguments can always be passed unmodified to this function.
 
 Mouse input comes in many forms, including mouse motion, button presses and
 scrolling offsets.  The cursor appearance can also be changed, either to
-a custom image or a standard cursor shape from the system theme.
+a custom ambient_texture or a standard cursor shape from the system theme.
 
 
 @subsection cursor_pos Cursor position
@@ -351,18 +351,18 @@ cursor with the hot-spot in the upper-left corner:
 unsigned char pixels[16 * 16 * 4];
 memset(pixels, 0xff, sizeof(pixels));
 
-GLFWimage image;
-image.width = 16;
-image.height = 16;
-image.pixels = pixels;
+GLFWimage ambient_texture;
+ambient_texture.width = 16;
+ambient_texture.height = 16;
+ambient_texture.pixels = pixels;
 
-GLFWcursor* cursor = glfwCreateCursor(&image, 0, 0);
+GLFWcursor* cursor = glfwCreateCursor(&ambient_texture, 0, 0);
 @endcode
 
 If cursor creation fails, `NULL` will be returned, so it is necessary to check
 the return value.
 
-The image data is 32-bit, little-endian, non-premultiplied RGBA, i.e. eight bits
+The ambient_texture data is 32-bit, little-endian, non-premultiplied RGBA, i.e. eight bits
 per channel with the red channel first.  The pixels are arranged canonically as
 sequential rows, starting from the top-left corner.
 
@@ -377,7 +377,7 @@ GLFWcursor* url_cursor = glfwCreateStandardCursor(GLFW_POINTING_HAND_CURSOR);
 @endcode
 
 These cursor objects behave in the exact same way as those created with @ref
-glfwCreateCursor except that the system cursor theme provides the actual image.
+glfwCreateCursor except that the system cursor theme provides the actual ambient_texture.
 
 A few of these shapes are not available everywhere.  If a shape is unavailable,
 `NULL` is returned.  See @ref glfwCreateStandardCursor for details.
@@ -404,7 +404,7 @@ A cursor can be set as current for a window with @ref glfwSetCursor.
 glfwSetCursor(window, cursor);
 @endcode
 
-Once set, the cursor image will be used as long as the system cursor is over the
+Once set, the cursor ambient_texture will be used as long as the system cursor is over the
 content area of the window and the [cursor mode](@ref cursor_mode) is set
 to `GLFW_CURSOR_NORMAL`.
 

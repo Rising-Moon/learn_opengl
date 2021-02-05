@@ -27,7 +27,7 @@ include_directories(lib)
 # util
 include_directories(utils)
 
-set(SOURCE_FILES Light/main.cpp ${GLAD_SRC} utils/image_util.cpp utils/OurShader.h)
+set(SOURCE_FILES Light/main.cpp ${GLAD_SRC} utils/image_util.cpp utils/OurShader.h head/my_structs.h)
 add_executable(draw_triangle ${SOURCE_FILES})
 target_link_libraries(draw_triangle glfw)
 target_link_libraries(draw_triangle OpenGL::GL)

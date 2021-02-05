@@ -204,7 +204,7 @@ information on what to include when reporting a bug.
  - [X11] Bugfix: Keys pressed simultaneously with others were not always
    reported (#1112,#1415,#1472,#1616)
  - [Wayland] Removed support for `wl_shell` (#1443)
- - [Wayland] Bugfix: The `GLFW_HAND_CURSOR` shape used the wrong image (#1432)
+ - [Wayland] Bugfix: The `GLFW_HAND_CURSOR` shape used the wrong ambient_texture (#1432)
  - [Wayland] Bugfix: `CLOCK_MONOTONIC` was not correctly enabled
  - [Wayland] Bugfix: Repeated keys could be reported with `NULL` window (#1704)
  - [Wayland] Bugfix: Retrieving partial framebuffer size would segfault
